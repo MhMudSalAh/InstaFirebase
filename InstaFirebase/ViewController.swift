@@ -25,20 +25,35 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
-        present(imagePickerController, animated: true, completion: nil)
+        self.present(imagePickerController, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+     
+        if let editedImage = info[.editedImage] as? UIImage
+        {
+         loadPhoto.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
+        else if let originalImage = info[.originalImage] as? UIImage
+        {
+            loadPhoto.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
+        loadPhoto.layer.cornerRadius = loadPhoto.frame.width/2
+        loadPhoto.layer.masksToBounds = true
+        loadPhoto.layer.borderColor = UIColor.black.cgColor
+        loadPhoto.layer.borderWidth = 2
         
-        let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
-        print(originalImage?.size)
+        dismiss(animated: true, completion: nil)
+        
     }
+    
+    
     
     let emailTxt: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Email"
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = UIColor(white: 0, alpha: 0.03)
+  //      textField.backgroundColor = UIColor(white: 0, alpha: 0.03)
         textField.font = UIFont.systemFont(ofSize: 14)
         textField.keyboardType = UIKeyboardType.emailAddress
         textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
@@ -68,7 +83,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = UIColor(white: 0, alpha: 0.03)
+//        textField.backgroundColor = UIColor(white: 0, alpha: 0.03)
         textField.font = UIFont.systemFont(ofSize: 14)
         textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return textField
@@ -79,7 +94,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let textField = UITextField()
         textField.placeholder = "Username"
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = UIColor(white: 0, alpha: 0.03)
+//        textField.backgroundColor = UIColor(white: 0, alpha: 0.03)
         textField.font = UIFont.systemFont(ofSize: 14)
         textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return textField
@@ -101,6 +116,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
+    
     @objc func handleSignUp()
     {
         
@@ -117,20 +133,67 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             print("successfuly created user:", authResult?.user.uid ?? "")
             
-            let userNameValues = ["userName": userName]
-            let user = Auth.auth().currentUser
-            guard let userId = user?.uid else {return}
-            let values = [userId: userNameValues]
-            Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
-                if let err = err
+            guard let image = self.loadPhoto.imageView?.image else {return}
+            guard let uploadData = image.jpegData(compressionQuality: 0.3) else
+            {
+                let alert = UIAlertController(title: "Error", message: "Something went Wrong", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+
+
+            
+            let fileName = NSUUID().uuidString
+            let imageRef = Storage.storage().reference().child("profile_image").child(fileName)
+            imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
+                if error != nil
                 {
-                    print("Failed to save user info to database, err")
+                    let alert = UIAlertController(title: "Error", message: "\(error?.localizedDescription)", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                     return
                 }
                 
-                print("Successful to save user info to database")
+                    imageRef.downloadURL(completion: { (url, err) in
+                    if let err = err
+                    {
+                        let alert = UIAlertController(title: "Error", message: "\(error?.localizedDescription)", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
+                    
+                    guard let url = url else
+                    {
+                        let alert = UIAlertController(title: "Error", message: "\(error?.localizedDescription)", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
+                    print(url)
+                   
+                    let imgRef = url.absoluteString 
+                    let user = Auth.auth().currentUser
+                    guard let userId = user?.uid else {return}
+                    let dictionaryValues: [String: Any] = ["userName": userName, "profileImageUrl": imgRef]
+                    let values = [userId: dictionaryValues]
+                    Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
+                        if let err = err
+                        {
+                            print("Failed to save user info to database: ", err)
+                            return
+                        }
+
+                        print("Successful to save user info to database")
+
+                    })
+                })
                 
-            })
+            }
+                        
+            
+
             
         }
     }
