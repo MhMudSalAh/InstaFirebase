@@ -9,12 +9,13 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     let loadPhoto: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "loadPhotoImg").withRenderingMode(.alwaysOriginal), for: .normal)
         button.tintColor = UIColor.black
+        button.imageView?.contentMode = .scaleToFill
         button.addTarget(self, action: #selector(handleLoadPhoto), for: .touchUpInside)
         return button
         
@@ -74,7 +75,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         else
         {
             signUpButton.isEnabled = false
-            signUpButton.backgroundColor = UIColor.rgb(red: 113, green: 125, blue:255)
+            signUpButton.backgroundColor = UIColor.rgb(red: 149, green: 204, blue:244)
         }
     }
     
@@ -186,6 +187,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         }
 
                         print("Successful to save user info to database")
+                        
+                        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
+                        
+                        mainTabBarController.setupViewControllers()
+                        
+                        self.dismiss(animated: true, completion: nil)
 
                     })
                 })
@@ -198,9 +205,29 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    let AlreadyHaveAccountButton: UIButton = {
+        let button = UIButton(type: .system)
+        
+        let attributedText = NSMutableAttributedString(string: "Already have an account?  ", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14) ])
+       
+        attributedText.append(NSAttributedString(string: "Sign In.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.rgb(red: 17, green: 154, blue:237), NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)]))
+        
+        button.setAttributedTitle(attributedText, for: .normal)
+        button.addTarget(self, action: #selector(handleAlreadyHaveAccountButton), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func handleAlreadyHaveAccountButton(){
+       _ = navigationController?.popViewController(animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(AlreadyHaveAccountButton)
+        AlreadyHaveAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+        
+        view.backgroundColor = .white
         view.addSubview(loadPhoto)
         
         loadPhoto.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 140)
