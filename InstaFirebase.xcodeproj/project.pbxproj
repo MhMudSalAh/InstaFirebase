@@ -20,6 +20,7 @@
 		847D7A2B23281C48008F5845 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847D7A2A23281C48008F5845 /* Assets.xcassets */; };
 		847D7A2E23281C48008F5845 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 847D7A2C23281C48008F5845 /* LaunchScreen.storyboard */; };
 		847D7A3923281C48008F5845 /* InstaFirebaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D7A3823281C48008F5845 /* InstaFirebaseTests.swift */; };
+		847EF66923707C2000C764DD /* SharePhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847EF66823707C2000C764DD /* SharePhotoController.swift */; };
 		84C1EC0B2353B4B1009D40D2 /* UserProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1EC0A2353B4B1009D40D2 /* UserProfileHeaderCell.swift */; };
 		84DC0E87235D60A5001F9669 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC0E86235D60A5001F9669 /* LoginController.swift */; };
 		84EE9991232F4240001D2294 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84EE9990232F4240001D2294 /* GoogleService-Info.plist */; };
@@ -54,6 +55,7 @@
 		847D7A3423281C48008F5845 /* InstaFirebaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstaFirebaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		847D7A3823281C48008F5845 /* InstaFirebaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaFirebaseTests.swift; sourceTree = "<group>"; };
 		847D7A3A23281C48008F5845 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		847EF66823707C2000C764DD /* SharePhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePhotoController.swift; sourceTree = "<group>"; };
 		84C1EC0A2353B4B1009D40D2 /* UserProfileHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderCell.swift; sourceTree = "<group>"; };
 		84C2953AF7F774A85C6AF342 /* Pods_InstaFirebaseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaFirebaseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DC0E86235D60A5001F9669 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				84008C04236A613E003FBDA9 /* PhotoSelectorController.swift */,
 				8437246C236BBAF30059C41C /* PhotoSelectorCell.swift */,
 				841E3883236E2426005E4525 /* PhotoSelectorHeader.swift */,
+				847EF66823707C2000C764DD /* SharePhotoController.swift */,
 			);
 			path = AddPhoto;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847EF66923707C2000C764DD /* SharePhotoController.swift in Sources */,
 				847D7A2623281C46008F5845 /* SignUpController.swift in Sources */,
 				8437246D236BBAF30059C41C /* PhotoSelectorCell.swift in Sources */,
 				84341F36232D5E8100AEDE74 /* Extensions.swift in Sources */,

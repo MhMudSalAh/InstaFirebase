@@ -135,52 +135,26 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
             print("successfuly created user:", authResult?.user.uid ?? "")
             
             guard let image = self.loadPhoto.imageView?.image else {return}
-            guard let uploadData = image.jpegData(compressionQuality: 0.3) else
-            {
-                let alert = UIAlertController(title: "Error", message: "Something went Wrong", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-                return
-            }
+            guard let uploadData = image.jpegData(compressionQuality: 0.3) else{return}
 
-
-            
             let fileName = NSUUID().uuidString
             let imageRef = Storage.storage().reference().child("profile_image").child(fileName)
             imageRef.putData(uploadData, metadata: nil) { (metadata, error) in
                 if error != nil
                 {
-                    let alert = UIAlertController(title: "Error", message: "\(error?.localizedDescription)", preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+                    print("Failed to upload profile image: ", error)
                     return
                 }
                 
-                    imageRef.downloadURL(completion: { (url, err) in
+            imageRef.downloadURL(completion: { (url, err) in
+                guard let url = url else {return}
+                let imgRef = url.absoluteString
+                let user = Auth.auth().currentUser
+                guard let userId = user?.uid else {return}
+                let dictionaryValues: [String: Any] = ["userName": userName, "profileImageUrl": imgRef]
+                let values = [userId: dictionaryValues]
+                Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
                     if let err = err
-                    {
-                        let alert = UIAlertController(title: "Error", message: "\(error?.localizedDescription)", preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                        return
-                    }
-                    
-                    guard let url = url else
-                    {
-                        let alert = UIAlertController(title: "Error", message: "\(error?.localizedDescription)", preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                        return
-                    }
-                    print(url)
-                   
-                    let imgRef = url.absoluteString 
-                    let user = Auth.auth().currentUser
-                    guard let userId = user?.uid else {return}
-                    let dictionaryValues: [String: Any] = ["userName": userName, "profileImageUrl": imgRef]
-                    let values = [userId: dictionaryValues]
-                    Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
-                        if let err = err
                         {
                             print("Failed to save user info to database: ", err)
                             return
@@ -193,15 +167,11 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
                         mainTabBarController.setupViewControllers()
                         
                         self.dismiss(animated: true, completion: nil)
-
+                    
                     })
                 })
                 
             }
-                        
-            
-
-            
         }
     }
     
@@ -255,45 +225,7 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
 }
 
 
-extension UIView{
-    
-    func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?, paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat)
-    {
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        if let top = top
-        {
-            self.topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
-        }
-        
-        if let left = left
-        {
-            self.leftAnchor.constraint(equalTo: left, constant: paddingLeft).isActive = true
-        }
-        
-        if let bottom = bottom
-        {
-            self.bottomAnchor.constraint(equalTo: bottom, constant: paddingBottom).isActive = true
-        }
-        
-        if let right = right
-        {
-            self.rightAnchor.constraint(equalTo: right, constant: paddingRight).isActive = true
-        }
-        
-        if width != 0
-        {
-            widthAnchor.constraint(equalToConstant: width).isActive = true
-        }
-        
-        if height != 0
-        {
-            heightAnchor.constraint(equalToConstant: height).isActive = true
-        }
-    }
-    
-}
+
 
 
 
