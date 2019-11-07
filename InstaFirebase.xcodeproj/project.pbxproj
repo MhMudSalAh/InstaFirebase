@@ -13,6 +13,8 @@
 		84341F36232D5E8100AEDE74 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84341F35232D5E8100AEDE74 /* Extensions.swift */; };
 		84347664234C8CA1006B0724 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84347663234C8CA1006B0724 /* MainTabBarController.swift */; };
 		84347666234C91A1006B0724 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84347665234C91A1006B0724 /* UserProfileController.swift */; };
+		8436060D2374313E002C8680 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436060C2374313E002C8680 /* Post.swift */; };
+		8436060F23748B27002C8680 /* UserProfilePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436060E23748B27002C8680 /* UserProfilePhotoCell.swift */; };
 		8437246D236BBAF30059C41C /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8437246C236BBAF30059C41C /* PhotoSelectorCell.swift */; };
 		847D7A2423281C46008F5845 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D7A2323281C46008F5845 /* AppDelegate.swift */; };
 		847D7A2623281C46008F5845 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D7A2523281C46008F5845 /* SignUpController.swift */; };
@@ -44,6 +46,8 @@
 		84341F35232D5E8100AEDE74 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		84347663234C8CA1006B0724 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		84347665234C91A1006B0724 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
+		8436060C2374313E002C8680 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		8436060E23748B27002C8680 /* UserProfilePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePhotoCell.swift; sourceTree = "<group>"; };
 		8437246C236BBAF30059C41C /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		847D7A2023281C46008F5845 /* InstaFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847D7A2323281C46008F5845 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +118,14 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		8436060B23743126002C8680 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8436060C2374313E002C8680 /* Post.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		847D7A1723281C46008F5845 = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +149,7 @@
 		847D7A2223281C46008F5845 /* InstaFirebase */ = {
 			isa = PBXGroup;
 			children = (
+				8436060B23743126002C8680 /* Models */,
 				84008C01236A13A2003FBDA9 /* AddPhoto */,
 				84DC0E85235D6066001F9669 /* Login */,
 				84C1EC092353B2CE009D40D2 /* UserProfile */,
@@ -166,6 +179,7 @@
 			children = (
 				84347665234C91A1006B0724 /* UserProfileController.swift */,
 				84C1EC0A2353B4B1009D40D2 /* UserProfileHeaderCell.swift */,
+				8436060E23748B27002C8680 /* UserProfilePhotoCell.swift */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -362,7 +376,9 @@
 				847EF66923707C2000C764DD /* SharePhotoController.swift in Sources */,
 				847D7A2623281C46008F5845 /* SignUpController.swift in Sources */,
 				8437246D236BBAF30059C41C /* PhotoSelectorCell.swift in Sources */,
+				8436060D2374313E002C8680 /* Post.swift in Sources */,
 				84341F36232D5E8100AEDE74 /* Extensions.swift in Sources */,
+				8436060F23748B27002C8680 /* UserProfilePhotoCell.swift in Sources */,
 				84347664234C8CA1006B0724 /* MainTabBarController.swift in Sources */,
 				84C1EC0B2353B4B1009D40D2 /* UserProfileHeaderCell.swift in Sources */,
 				84347666234C91A1006B0724 /* UserProfileController.swift in Sources */,
