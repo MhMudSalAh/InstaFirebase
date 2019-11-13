@@ -57,8 +57,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
        // tabBar.tintColor = .black
         //HomeVC
         
-        let homeVC = templateNavController(unSelectedImage: #imageLiteral(resourceName: "homeUnselected"), selectedImage: #imageLiteral(resourceName: "homeSelected"))
-        
+        let homeVC = templateNavController(unSelectedImage: #imageLiteral(resourceName: "homeUnselected"), selectedImage: #imageLiteral(resourceName: "homeSelected"), rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
+        	
         //searchVC
         let searchVC = templateNavController(unSelectedImage: #imageLiteral(resourceName: "searchUnSelected"), selectedImage: #imageLiteral(resourceName: "searchSelected"))
         
@@ -91,9 +91,9 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         
     }
     
-    fileprivate func templateNavController(unSelectedImage: UIImage, selectedImage: UIImage) -> UINavigationController {
+    fileprivate func templateNavController(unSelectedImage: UIImage, selectedImage: UIImage, rootViewController: UIViewController = UIViewController()) -> UINavigationController {
         
-        let VC = UIViewController()
+        let VC = rootViewController
         let navController = UINavigationController(rootViewController: VC)
         navController.tabBarItem.image = unSelectedImage
         navController.tabBarItem.selectedImage = selectedImage
